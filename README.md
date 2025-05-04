@@ -29,46 +29,32 @@ GROUP BY m.mcc_id, m.Description
 ORDER BY Total_Transactions DESC;
 ```
 
-**Key Findings:**
+#### **Key Findings & Business Implications:**
 
-**1. High Transaction Volume, Moderate Spending:** Categories like **Grocery Stores and Supermarkets** (**MCC 5411**) show the highest number of transactions at **18,371**, indicating frequent purchases by our customer base. However, the total spending in this category, at **$501,980.56**, while substantial, is not the highest, suggesting that these are typically smaller, everyday purchases.
-
-
-**2. Moderate Transaction Volume, High Spending:** Conversely, categories such as **Money Transfer (MCC 4829)** exhibit only **7,257** transactions but the highest overall spending of **$596,560.** This suggests that while these transactions are less frequent, they involve significantly larger amounts of money per transaction (*an **average** of approximately **$82** per transaction*).
+* **Grocery Stores and Supermarkets (MCC 5411)** recorded the highest transaction count at **18,371**, with total spending of **\$501,980.56**. This reflects high-frequency, low-to-moderate value purchases typical of everyday consumer behavior. The consistent volume underscores this category’s importance for customer engagement and operational reliability.
 
 
-**3. Bulk Purchasing Behavior: Wholesale Clubs (MCC 5300)** also demonstrate high total spending at **$471,078.75**, coupled with a considerable number of transactions at **7,573.** The relatively high **average** amount spent per transaction (*around **$62***) in this category likely reflects customers buying goods in bulk.
+* **Money Transfer services (MCC 4829)** had a significantly lower transaction count of **7,257** but the highest overall spend at **\$596,560**, with an average of around **\$82 per transaction**. This indicates a high-value, low-frequency pattern often associated with financial services, pointing to elevated fraud exposure and potentially different user segments with larger transactional stakes.
 
 
-**4. Discretionary Spending Trends:** When we look at **dining, Eating Places and Restaurants (MCC 5812)** show **11,673** transactions with a total spend of **$316,035.8**, and **Fast Food Restaurants (MCC 5814)** have **5,888** transactions totaling **$158,989.44.** Interestingly, **Drinking Places (Alcoholic Beverages) (MCC 5813)** have a much lower transaction volume of **2,838** with a total spend of **$67,352.98**, which could be due to various factors such as less frequent visits or regional differences in consumption patterns.
+* **Wholesale Clubs (MCC 5300)** also showed strong performance, with **7,573 transactions** and **\$471,078.75** in spending. The relatively high per-transaction average (about **\$62**) suggests bulk purchasing behavior, possibly by small businesses or value-conscious consumers—relevant for segmentation and pricing insights.
 
 
-**5. Essential Services Spending:** Categories like **Service Stations (MCC 5541)** with **17,055** transactions and a total spend of **$380,788.89**, and **Tolls and Bridge Fees (MCC 4784)** with **8,242** transactions and **$289,230.09** in spending, consistently show a high number of transactions and significant total spending, highlighting necessary expenditures related to transportation.
+* **Dining-related categories** showed varied behavior:
+
+  * **Eating Places and Restaurants (MCC 5812):** **11,673 transactions**, **\$316,035.80**
+  * **Fast Food (MCC 5814):** **5,888 transactions**, **\$158,989.44**
+  * **Drinking Places (Alcoholic Beverages) (MCC 5813):** **2,838 transactions**, **\$67,352.98**
+    This spread reflects different levels of discretionary spending, with lower engagement in alcohol-related venues possibly due to cultural, regulatory, or regional factors.
 
 
-**Business Implications**
-
-Based on these spending patterns, the following business implications can be identified:
-
-- **Elevated Fraud Risk in High-Value Transfers:** The high average transaction value in the **Money Transfer (MCC 4829)** category signifies a heightened potential for significant financial losses due to fraudulent activities.
+* **Essential service categories** such as **Service Stations (MCC 5541)** with **17,055 transactions** and **\$380,788.89**, and **Tolls and Bridge Fees (MCC 4784)** with **8,242 transactions** and **\$289,230.09**, show sustained high usage. Their predictability signals reliability in recurring customer behavior and the operational importance of seamless transaction processing.
 
 
-- **Opportunity for Targeted Marketing in High-Frequency Retail:** The substantial transaction volume in **Grocery Stores and Supermarkets (MCC 5411)** presents a significant opportunity for targeted marketing efforts aimed at influencing purchasing behavior and increasing customer lifetime value within this large segment.
+* Other key utility categories—including **Drug Stores and Pharmacies (MCC 5912)**, **Utilities (MCC 4900)**, and **Telecommunication Services (MCC 4814)**—demonstrate both **high transaction volume and significant total spend**, highlighting their role in essential daily life and their potential stability as part of the bank's transaction ecosystem.
 
 
-- **Potential for Business Customer Segmentation:** The high spending observed in **Money Transfer (MCC 4829)** and **Wholesale Clubs (MCC 5300)** indicates the presence of customer segments that may include businesses or organizations with distinct financial needs.
-
-
-- **Importance of Efficient Transaction Processing for Essential Services:** The high transaction volumes in categories like **Grocery Stores (MCC 5411), Service Stations (MCC 5541), and Tolls and Bridge Fees (MCC 4784)** underscore the critical need for reliable and efficient transaction systems to support these high-frequency, essential services.
-
-
-- **Possible Data Anomalies or Regional Factors in Low-Volume Categories:** The lower transaction volume in Drinking Places **(Alcoholic Beverages) (MCC 5813)** suggests potential data inconsistencies or the influence of regional regulations or cultural consumption patterns that require further understanding.
-
-
-- The consistent activity in essential services like **Drug Stores and Pharmacies(MCC 5912)**, **Utilities - Electric, Gas, Water, Sanitary(MCC 4900)**, and **Telecommunication Services(MCC 4814)** underscores the reliance of customers on these sectors and their predictable spending patterns within them. 
-
-
-### 1.2. Geographical Spending Patterns 
+### 1.1. Geographical Spending Patterns 
 
 ```sql
 SELECT TOP 10
@@ -81,7 +67,7 @@ GROUP BY merchant_state, merchant_city
 ORDER BY TOTAL_TRANSACTIONS DESC;
 ```
 
-**Key Findings & Business Implications:**
+#### **Key Findings & Business Implications:**
 
 * **Online transactions** accounted for **17,921 transactions** and **\$1,048,210.76** in spend, making it the dominant channel. This reflects high customer reliance on digital platforms and signals that a significant share of business activity occurs outside physical locations, which has implications for risk exposure and digital engagement strategies.
 
@@ -103,6 +89,7 @@ ORDER BY TOTAL_TRANSACTIONS DESC;
 ---
 
 ## 2. Geographical Trends
+**Identify high-spending regions or locations prone to failed transactions.**
 
 ``` sql
 SELECT 
@@ -140,4 +127,66 @@ ORDER BY Total_Spent DESC;
 * **Houston, TX** and **Bronx, NY**, both high in overall transaction volume, also experienced **25 failed transactions each**, with of **\$1,278.88** and **\$1,262.97**, suggesting that **high-traffic areas naturally carry greater exposure to failed attempts**.
 
 ---
+
+## 3. Error Trends: Most Common Transaction Errors
+
+```sql
+SELECT 
+    errors, 
+    COUNT(id) AS Total_Errors
+FROM transactions_data
+WHERE errors IS NOT NULL AND errors != 'No Error Occurred'
+GROUP BY errors
+ORDER BY Total_Errors DESC;
+```
+
+#### **Key Findings & Business Implications:**
+
+* **Insufficient Balance** was the most common error, with **1,760 occurrences**, indicating a high frequency of attempted transactions without adequate funds. This points to a recurring financial strain among some users and highlights potential credit or overdraft product opportunities.
+
+  
+* **Bad PIN entries** were the second-most frequent errors with **388 instances**, The prevalence of bad PIN entries suggests either forgetfulness or potential unauthorized access attempts.
+
+
+* The occurrence of **Technical Glitches(324 errors)**  indicates potential vulnerabilities or instability in the transaction processing system, which could erode customer trust and impact operational efficiency. These glitches peaked at **2 PM** and in **December 2022** (*holiday rush*), suggesting system overload.
+
+
+* Other errors like **Bad Card Number (93)**, **Bad Expiration (73)**, **Bad CVV (65)**, and **Bad Zipcode (17)** occurred at lower volumes but still reflect friction in the payment process—likely due to manual entry mistakes, outdated card data, or poor form validation.
+
+
+* There were a handful of **combined errors** (e.g., “Bad PIN, Insufficient Balance”), totaling **18 cases** across various combinations. These multi-error attempts suggest repeated failed efforts during a single session, potentially frustrating customers and increasing the risk of abandonment.
+
+---
+
+### 3.1 Location with Most Errors
+**Transaction Error Rates by State**
+
+```sql
+SELECT 
+    merchant_state, 
+    COUNT(id) AS total_transactions,
+    COUNT(CASE WHEN errors IS NOT NULL AND errors != 'No Error Occurred' THEN 1 END) AS total_errors,
+    ROUND((COUNT(CASE WHEN errors IS NOT NULL AND errors != 'No Error Occurred' THEN 1 END) * 100.0) / COUNT(id), 2) AS error_rate
+FROM transactions_data
+GROUP BY merchant_state
+HAVING ROUND((COUNT(CASE WHEN errors IS NOT NULL AND errors != 'No Error Occurred' THEN 1 END) * 100.0) / COUNT(id), 2) > 0
+ORDER BY error_rate DESC;
+```
+
+#### **Key Findings & Implications:**
+
+* **High Error Rates in Low-Activity Locations**
+  States and countries with very few transactions such as **South Korea (33.3%), Wyoming (6.9%), and Ireland (5.56%)** show disproportionately high error rates implying that while the error rate is high, the overall impact might be limited due to the low transaction volume. These figures may also reflect outliers or irregular usage patterns rather than systemic issues.
+
+* **Moderate to High Error Rates in High-Volume States**
+  **Louisiana (3.13%), Florida (2.54%), and Pennsylvania (2.44%)** stand out for combining high transaction volumes with elevated error rates. This suggests that users in these locations encounter errors more frequently than the national average.
+
+* **Online Transactions Show Consistently Elevated Error Rates**
+  The **online** channel, which represents the highest transaction volume (**17,921**), also records a relatively high error rate of **2.48%**, indicating that transaction issues are not limited to specific geographies.
+
+* **Error Rates Cluster in a Narrow Range Across Most States**
+  Among the majority of U.S. states, error rates fall within a **1.2%** to **2.5%** range. This suggests a broadly stable transaction process, with some variability that may be influenced by regional or infrastructural factors.
+
+---
+
 
