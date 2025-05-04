@@ -156,7 +156,6 @@ ORDER BY Total_Errors DESC;
 
 * There were a handful of **combined errors** (e.g., “Bad PIN, Insufficient Balance”), totaling **18 cases** across various combinations. These multi-error attempts suggest repeated failed efforts during a single session, potentially frustrating customers and increasing the risk of abandonment.
 
----
 
 ### 3.1. Location with Most Errors
 **Transaction Error Rates by State**
@@ -327,8 +326,107 @@ ORDER BY error_rate DESC, error_date;
 
     * **Implication:** These days represent periods of relatively stable transaction processing with a lower proportion of errors. Analyzing the system status and transaction patterns on these days might provide insights into best practices or conditions that contribute to higher transaction success rates.
 
+---
+
+## 5. Credit Risk: 
+
+**Identify customers at risk of default based on debt-to-income ratios and credit score trends.**
+
+```sql
+WITH Risk_Categorization AS (
+    SELECT 
+        id AS user_id, 
+        total_debt, 
+        yearly_income, 
+        credit_score,
+        ROUND((total_debt / NULLIF(yearly_income, 0)) * 100, 2) AS debt_to_income_ratio,
+        CASE 
+            WHEN (total_debt / NULLIF(yearly_income, 0)) * 100 > 100 AND credit_score < 500 THEN 'Very High Risk'
+            WHEN (total_debt / NULLIF(yearly_income, 0)) * 100 > 60 AND credit_score BETWEEN 500 AND 599 THEN 'High Risk'
+            WHEN (total_debt / NULLIF(yearly_income, 0)) * 100 BETWEEN 40 AND 60 AND credit_score BETWEEN 600 AND 699 THEN 'Moderate Risk'
+            ELSE 'Low Risk'
+        END AS risk_category
+    FROM users_data
+)
+SELECT * 
+FROM Risk_Categorization
+WHERE risk_category IN ('High Risk', 'Very High Risk')
+ORDER BY risk_category DESC, debt_to_income_ratio DESC;
+```
+
+#### Key Findings and Implications:
+
+#### **Critical Risk Profiles**
+
+* **Debt-to-Income Ratio >200%**
+
+  * *Example*: User 1801 has a **DTI of 221%** and **credit score of 480**.
+  * **Implication**: These users are deep in the red. They are likely relying entirely on borrowed money, suggesting high probability of default without immediate corrective action.
 
 
+* **Credit Score Collapse**
+
+  * *Observation*: **89% of “Very High Risk” users have credit scores <500**, well below the U.S. average of 704.
+  * **Implication**: These customers have either defaulted in the past or are structurally uncreditworthy. Conventional recovery or repayment strategies are unlikely to be effective.
+    
+
+#### **Hidden Risk Segments**
+
+* **Moderate Debt, Low-Income Profiles**
+
+  * *Example*: User 1330 with **\$30K debt on \$35K income**.
+  * **Implication**: These users don’t appear high-risk at first glance, but limited income leaves them **one unexpected expense away from default**. Traditional risk metrics may underestimate their vulnerability.
 
 
+---
+
+## 6. Debt Levels: 
+
+**Analyze the distribution of total debt across customers for portfolio risk management.**
+
+```sql
+WITH Debt_Distribution AS (
+    SELECT 
+        id AS user_id, 
+        total_debt,
+        yearly_income,
+        ROUND((total_debt / NULLIF(yearly_income, 0)) * 100, 2) AS debt_to_income_ratio,
+        CASE 
+            WHEN total_debt = 0 THEN 'No Debt'
+            WHEN total_debt BETWEEN 1 AND 10000 THEN 'Low Debt (1-10K)'
+            WHEN total_debt BETWEEN 10001 AND 50000 THEN 'Moderate Debt (10K-50K)'
+            WHEN total_debt BETWEEN 50001 AND 100000 THEN 'High Debt (50K-100K)'
+            ELSE 'Very High Debt (100K+)'
+        END AS debt_category
+    FROM users_data
+)
+SELECT 
+    debt_category, 
+    COUNT(user_id) AS total_users,
+    ROUND(AVG(total_debt), 2) AS avg_debt,
+    ROUND(MIN(total_debt), 2) AS min_debt,
+    ROUND(MAX(total_debt), 2) AS max_debt
+FROM Debt_Distribution
+GROUP BY debt_category
+ORDER BY total_users DESC;
+```
+
+#### Key Findings and Implications:
+
+* **Dominance of Moderate Debt (771 users):** The large number of users in the `'**Moderate Debt (50K-150K)**'` category implies a significant portion of the portfolio is susceptible to economic downturns or localized financial strains affecting this segment.
+
+  
+* **Substantial High Debt Exposure (548 users):** The considerable number of users with `'**High Debt (150K-500K)**'` suggests a heightened sensitivity to interest rate fluctuations and changes in individual financial stability.
+
+  
+* **Concentrated Risk in Very High Debt (381 users, avg.143K):** The substantial average debt and total exposure **(54.6 million)** in the `'**Very High Debt (500K+)**'` category indicates a significant vulnerability to large financial losses should even a small number of these users default within the local economic context.
+
+  
+* **Low Debt Segment (200 users, avg.3K):** The small size of the `'**Low Debt (1-50K)**'` segment implies a limited immediate risk but also a potentially untapped market for increased credit product penetration.
+
+  
+* **Minimal No Debt (102 users):** The very small `'**No Debt**'` segment suggests a high existing penetration of credit products within your current customer base in the region.
+ 
+  
+* **Average Debt Trend (Increasing with Category):** The escalating average debt across categories implies a progressively higher financial risk associated with each increase in debt level within the local lending environment.
 
