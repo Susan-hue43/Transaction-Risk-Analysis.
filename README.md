@@ -158,7 +158,7 @@ ORDER BY Total_Errors DESC;
 
 ---
 
-### 3.1 Location with Most Errors
+### 3.1. Location with Most Errors
 **Transaction Error Rates by State**
 
 ```sql
@@ -187,6 +187,148 @@ ORDER BY error_rate DESC;
 * **Error Rates Cluster in a Narrow Range Across Most States**
   Among the majority of U.S. states, error rates fall within a **1.2%** to **2.5%** range. This suggests a broadly stable transaction process, with some variability that may be influenced by regional or infrastructural factors.
 
----
+
+### 3.2. Error Rates by Chip Usage
+
+**Error Rate by Transaction Method**
+```sql
+SELECT 
+    use_chip, 
+    COUNT(id) AS total_transactions,
+    COUNT(CASE WHEN errors IS NOT NULL AND errors != 'No Error Occurred' THEN 1 END) AS error_count,
+    ROUND((COUNT(CASE WHEN errors IS NOT NULL AND errors != 'No Error Occurred' THEN 1 END) * 100.0) / COUNT(id), 2) AS error_rate
+FROM transactions_data
+GROUP BY use_chip;
+```
+
+
+#### **Key Findings & Implications:**
+
+
+* **Online Transactions** have the **highest error rate** at **2.5%**, even with lower volume that translates to a significant number of failed transactions (**445**), potentially impacting a large segment of customers and requiring attention to optimize the online transaction process.
+
+  
+* **Chip Transactions** are the most used and the **most reliable**(**1.58%** error rate) compared to online and swipe, suggesting that chip technology is a relatively reliable method for processing transactions.
+
+  
+* The highest error rate observed for **Swipe Transactions** (**1.74%**) despite the lowest transaction volume (**2,927**) indicates that this method might be more prone to errors. This could be due to various factors such as card reader issues or user error during swiping.
+
+### 3.3. Errors By Month
+
+```sql
+SELECT 
+    FORMAT(date, 'yyyy-MM') AS error_month,  -- Formats as YYYY-MM
+    COUNT(id) AS total_transactions,
+    COUNT(CASE WHEN errors IS NOT NULL AND errors != 'No Error Occurred' THEN 1 END) AS error_count,
+    ROUND(
+        (COUNT(CASE WHEN errors IS NOT NULL AND errors != 'No Error Occurred' THEN 1 END) * 100.0) / COUNT(id), 
+        2
+    ) AS error_rate
+FROM transactions_data
+GROUP BY FORMAT(date, 'yyyy-MM')
+ORDER BY error_rate DESC, error_month;
+```
+#### **Key Findings & Implications:**
+
+- **April 2024 (2.13%)**
+April 2024 recorded the highest error rate **(2.13%)** across **4,553** transactions, indicating a recent spike in failed attempts that may signal emerging operational or user-experience issues.
+
+- **February 2023 (1.87%)**
+February had the highest error rate of the year with **80** errors from **4,272** transactions. This spike early in the year suggests potential onboarding issues, post-holiday user behavior shifts, or lagging system performance after peak-season stress.
+
+
+- **September 2023 (1.79%)**
+September logged **82** errors from **4,579** transactions. This combination of high error count and elevated rate indicates ongoing friction, possibly linked to increased digital activity heading into Q4.
+
+
+- **November 2023 (1.71%)**
+With **77** errors and an error rate of **1.71%**, November reflects growing pressure on the system during the lead-up to holiday shopping. This period may reveal bottlenecks in processing or error handling under volume surges.
+
+
+- **December 2022 (2.05%)**
+Despite being a holiday season with likely high consumer activity, **December 2022**’s elevated error rate **(2.05%)** suggests that increased demand may have strained systems or caused more user mistakes.
+
+
+- **January 2022 (1.98%)**
+The start of **2022** saw a near **-2%** error rate from **4,642** transactions, implying that system performance or user readiness might dip after year-end transitions.
+
+
+- **July 2022 (1.95%)**
+With **91** errors out of **4,656** transactions, **July 2022** shows an above-average error rate, possibly reflecting seasonal usage patterns or technical inconsistencies during summer months.
+
+
+- **August 2022 (1.92%)**
+August’s error rate remained elevated at **1.92%**, suggesting a persistence of the same underlying issue that affected July, which could point to unresolved system or interface challenges.
+
+### 3.4. Errors by Hour
+
+```sql
+SELECT 
+    DATEPART(HOUR, date) AS error_hour, 
+    COUNT(id) AS total_transactions,
+    COUNT(CASE WHEN errors IS NOT NULL AND errors != 'No Error Occurred' THEN 1 END) AS error_count,
+    ROUND(
+        (COUNT(CASE WHEN errors IS NOT NULL AND errors != 'No Error Occurred' THEN 1 END) * 100.0) / COUNT(id), 
+        2
+    ) AS error_rate
+FROM transactions_data
+GROUP BY DATEPART(HOUR, date)
+ORDER BY error_rate DESC;
+```
+
+- **Hour 4: Highest Error Rate (2.85%) with Low Volume**
+Although only **1,578** transactions occurred at **4 AM**, it had the highest error rate of all hours. This likely reflects system maintenance windows or lower supervision during off-peak hours, suggesting increased risk of transaction failure in early-morning processing.
+
+
+- **Hour 14 (2 PM): Peak Activity with Elevated Errors**
+**2 PM** saw one of the highest transaction volumes (**11,046**) and **241** errors, resulting in a **2.18%** error rate. The combination of high traffic and elevated errors indicates this is a critical stress point in the day.
+
+
+- **Hour 3: Consistently High Error Rate (2.84%)**
+At **3 AM**, despite just **1,020** transactions, the error rate nearly matches the peak hour. This pattern reinforces concerns around night-time system reliability or user fatigue leading to higher input errors, requiring review of processes active during these hours.
+
+
+**low-error hours insights**
+
+- **Hour 8 (8 AM): Low Error Rate (1.32%) with High Usage**
+With over **10,000** transactions and only a **1.32%** error rate, **8 AM** shows both high activity and system stability. This indicates well-functioning infrastructure and user readiness in early business hours, reinforcing it as a low-risk period for transaction processing.
+
+
+- **Hour 22 (10 PM): Lowest Error Rate (1.32%) in Late Hours**
+Despite being outside typical business hours, **10 PM** maintains the lowest error rate among all periods. This suggests improved system reliability or fewer distractions for users late at night, highlighting it as an unexpectedly stable time for processing.
+
+
+- **Hour 9 (9 AM): Strong Volume with Consistent Performance (1.54%)**
+With over **11,000** transactions and a low error rate, **9 AM** represents a key hour of efficient throughput. This balance of volume and reliability makes it an optimal period for handling high transaction loads with minimal disruption.
+
+
+### 3.5. Error Rate by day
+
+```sql
+SELECT 
+    CAST(date AS DATE) AS error_date,  -- Extracts only the date part
+    COUNT(id) AS total_transactions,
+    COUNT(CASE WHEN errors IS NOT NULL AND errors != 'No Error Occurred' THEN 1 END) AS error_count,
+    ROUND(
+        (COUNT(CASE WHEN errors IS NOT NULL AND errors != 'No Error Occurred' THEN 1 END) * 100.0) / COUNT(id), 
+        2
+    ) AS error_rate
+FROM transactions_data
+GROUP BY CAST(date AS DATE)
+ORDER BY error_rate DESC, error_date;
+```
+
+* **Observation (Highest Error Rate):** The highest error rate is **6.16%** on **2024-03-18**, with **11** errors out of **179** total transactions.
+
+    * **Implication:** This single day in March 2024 experienced a significantly higher proportion of failed transactions compared to other days in the dataset. This warrants investigation into any specific events, system issues, or anomalies that might have occurred on this date.
+
+      
+* **Observation (Lowest Error Rate):** Several days show the lowest error rate of **4.26%**, including **2024-06-01** (***7** errors out of **165 transactions***). Other days with similarly low rates include **2023-02-26** (6 errors out of 128 transactions) and **2024-04-04** (6 errors out of 159 transactions).
+
+    * **Implication:** These days represent periods of relatively stable transaction processing with a lower proportion of errors. Analyzing the system status and transaction patterns on these days might provide insights into best practices or conditions that contribute to higher transaction success rates.
+
+
+
+
 
 
