@@ -1,16 +1,4 @@
 # Transaction-and-Risk-Analysis.
-
-## Table of Contents
-
-1. [Spending Patterns](docs/2-spending-patterns.md)  
-2. [Geographical Trends](docs/3-geographical-trends.md)  
-3. [Error Trends](docs/4-error-trends.md)  
-4. [High-Value Transactions](docs/5-high-value-transactions.md)  
-5. [Credit Risk](docs/6-credit-risk.md)  
-6. [Debt Levels](7docs/-debt-levels.md)  
-7. [Recommendations & Conclusion](docs/8-recommendations-conclusion.md)
-
-
 ## Introduction:
 Transaction Risk Analysis involves businesses evaluating their transaction data to pinpoint anomalies or unusual patterns indicative of fraud or regulatory violations. Key risk factors in this analysis often include location, time, and spending patterns. 
 
@@ -28,3 +16,13 @@ This report will focus on the following key areas of transaction and risk analys
 - **Credit Risk:** Identifying customers who may be at an increased risk of default based on their debt-to-income ratios and credit score trends.
 - **Debt Levels:** Analyzing the distribution of total debt across the customer portfolio to better understand and manage overall portfolio risk.
 
+
+## Table of Contents
+
+1. [Spending Patterns](docs/2-spending-patterns.md)  
+2. [Geographical Trends](docs/3-geographical-trends.md)  
+3. [Error Trends](docs/4-error-trends.md)  
+4. [High-Value Transactions](docs/5-high-value-transactions.md)  
+5. [Credit Risk](docs/6-credit-risk.md)  
+6. [Debt Levels](7docs/-debt-levels.md)  
+7. [Recommendations & Conclusion](docs/8-recommendations-conclusion.md)
