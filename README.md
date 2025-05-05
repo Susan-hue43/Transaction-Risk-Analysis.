@@ -1,4 +1,4 @@
-# Transaction-and-Risk-Analysis.
+# Transaction-Risk-Analysis.
 ## Introduction:
 Transaction Risk Analysis involves businesses evaluating their transaction data to pinpoint anomalies or unusual patterns indicative of fraud or regulatory violations. Key risk factors in this analysis often include location, time, and spending patterns. 
 
