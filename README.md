@@ -2,13 +2,13 @@
 
 ## Table of Contents
 
-1. [spending patterns](2-spending-patterns.md)  
-2. [Geographical Trends](3-geographical-trends.md)  
-3. [Error Trends](4-error-trends.md)  
-4. [High-Value Transactions](5-high-value-transactions.md)  
-5. [Credit Risk](6-credit-risk.md)  
-6. [Debt Levels](7-debt-levels.md)  
-7. [Recommendations & Conclusion](8-recommendations-conclusion.md)
+1. [Spending Patterns](docs/2-spending-patterns.md)  
+2. [Geographical Trends](docs/3-geographical-trends.md)  
+3. [Error Trends](docs/4-error-trends.md)  
+4. [High-Value Transactions](docs/5-high-value-transactions.md)  
+5. [Credit Risk](docs/6-credit-risk.md)  
+6. [Debt Levels](7docs/-debt-levels.md)  
+7. [Recommendations & Conclusion](docs/8-recommendations-conclusion.md)
 
 
 ## Introduction:
