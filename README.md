@@ -2,7 +2,7 @@
 
 ## Table of Contents
 
-1. [Spending Patterns](2-spending-patterns.md)  
+1. [spending patterns](2-spending-patterns.md)  
 2. [Geographical Trends](3-geographical-trends.md)  
 3. [Error Trends](4-error-trends.md)  
 4. [High-Value Transactions](5-high-value-transactions.md)  
