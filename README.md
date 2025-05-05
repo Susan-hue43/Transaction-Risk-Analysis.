@@ -19,7 +19,7 @@ This project focuses on analyzing transaction data from Aurora Bank with the pri
 ## Objective:
 The primary objective of this report is to analyze transaction data to identify key patterns and anomalies related to customer spending, geographical trends, transaction errors, high-value transactions, credit risk indicators, and debt levels. This analysis will provide a comprehensive overview of potential risks and opportunities within our transaction ecosystem.
 
-### Focus Areas:
+## Focus Areas:
 This report will focus on the following key areas of transaction and risk analysis:
 - **Spending Patterns:** Evaluating transaction volumes and total spending across different merchant categories (MCC) and locations to understand where and how customers are spending their money.
 - **Geographical Trends:** Identifying regions or specific locations with high spending activity or a higher propensity for failed transactions.
