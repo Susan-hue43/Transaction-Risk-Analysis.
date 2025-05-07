@@ -206,17 +206,17 @@ ORDER BY fraud_score DESC, amount DESC;
 * The SQL query identifies **33,569 transactions** occurring after **May 1, 2023**, involving either new merchants, non-chip usage, or critical errors. This high volume reflects a **material level of non-standard transaction behavior** within a single timeframe. It implies a widening gap between legacy customer patterns and newly emerging transactional risks, increasing potential liability exposure.
 
 
-**3. >70% of sample high-risk transactions are Online**
+**2. >70% of sample high-risk transactions are Online**
 
 *  At least **10 out of 15** flagged transactions in the sample have `merchant_city = Online`, and `merchant_state = Online`, indicating card-not-present usage. The prevalence of online transactions in the high-risk pool indicates that **digital payment channels are the dominant vector** for flagged behavior. This implies heightened exposure to CNP fraud and the need for targeted risk signaling in digital operations.
 
 
-**4. Frequent error types: "Insufficient Balance" and "Bad Card Number"**
+**3. Frequent error types: "Insufficient Balance" and "Bad Card Number"**
 
 * These two error types appear repeatedly, especially for Online transactions with new merchants. These errors imply a pattern of either **credential testing or overleveraged users** attempting payments beyond their means. These indicate synthetic fraud or real-user distress.
 
 
-**5. Transactions span multiple states and international cities (e.g. California, Mississippi, Rome)**
+**4. Transactions span multiple states and international cities (e.g. California, Mississippi, Rome)**
 
 * Locations flagged include **U.S.** states like **California, Florida, Pennsylvania**, and international ones like **Rome, Italy**. The geographic spread implies that fraud risk is **not concentrated in one market or merchant profile**. For the business, this indicates a **distributed exposure surface**, which may reflect systemic onboarding or verification gaps rather than isolated fraud hotspots.
 
