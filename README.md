@@ -1,4 +1,6 @@
 # Transaction-Risk-Analysis.
+![20250507_1621_Bank Risk Analysis_simple_compose_01jtnefeysf2fv1tjkw86k0jz8](https://github.com/user-attachments/assets/cb83df25-04c3-485f-aa4d-96ca0473caf0)
+*photo by sora*
 ## Introduction:
 Transaction Risk Analysis involves businesses evaluating their transaction data to pinpoint anomalies or unusual patterns indicative of fraud or regulatory violations. Key risk factors in this analysis often include location, time, and spending patterns. 
 
