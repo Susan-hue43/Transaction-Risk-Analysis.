@@ -27,4 +27,4 @@ This report will focus on the following key areas of transaction and risk analys
 4. [High-Value Transactions](docs/5-high-value-transactions.md)  
 5. [Credit Risk](docs/6-credit-risk.md)  
 6. [Debt Levels](docs/7-debt-levels.md)  
-7. [Recommendations & Conclusion](docs/8-recommendations-conclusion.md)
+7. [Recommendations & Conclusion](docs/8-overall-recommendations-conclusion.md)
