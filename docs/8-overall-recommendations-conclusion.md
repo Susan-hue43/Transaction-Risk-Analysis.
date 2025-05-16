@@ -1,3 +1,10 @@
+## **Conclusion:**
+
+We've looked at different ways to find risks in Aurora Bank's transactions, from single unusual events to bigger patterns about how people spend and pay. The key takeaway is that the best way to keep the bank and its customers safe is to have **one smart system that looks at all the clues together.**
+
+By connecting the dots between unusual spending, potential payment problems, and risky transaction types, the bank can get a much clearer picture of where the real dangers are. This will allow them to focus their efforts on the most serious risks, keep customers happy by not causing unnecessary alarms, and ultimately protect everyone's money in the Kenyan financial landscape. The bank needs to be ready to adapt and use the latest technology to stay ahead of new threats.
+
+
 ## **Overall Recommendations:**
 
 Considering the entirety of the transaction risk analysis conducted, encompassing unusually high-value transactions, debt-to-income ratios, credit score trends (where available in previous turns), and the more recent focus on new merchants, non-chip usage, and critical errors, Aurora Bank should adopt a **holistic and adaptive fraud and credit risk management strategy.** This strategy should integrate insights from all analytical layers to create a more robust and nuanced risk assessment framework. Key recommendations include:
@@ -19,9 +26,3 @@ Considering the entirety of the transaction risk analysis conducted, encompassin
   
 * **Investment in Advanced Analytics and Technology:** Explore and invest in advanced analytics techniques, such as machine learning, to identify more complex fraud patterns and predict credit default with greater accuracy. These technologies can learn from historical data to identify subtle anomalies that rule-based systems might miss.
 
-
-## **Conclusion:**
-
-We've looked at different ways to find risks in Aurora Bank's transactions, from single unusual events to bigger patterns about how people spend and pay. The key takeaway is that the best way to keep the bank and its customers safe is to have **one smart system that looks at all the clues together.**
-
-By connecting the dots between unusual spending, potential payment problems, and risky transaction types, the bank can get a much clearer picture of where the real dangers are. This will allow them to focus their efforts on the most serious risks, keep customers happy by not causing unnecessary alarms, and ultimately protect everyone's money in the Kenyan financial landscape. The bank needs to be ready to adapt and use the latest technology to stay ahead of new threats.
