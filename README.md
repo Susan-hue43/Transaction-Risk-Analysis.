@@ -7,7 +7,7 @@ Transaction Risk Analysis involves businesses evaluating their transaction data 
 This project focuses on analyzing transaction data from Aurora Bank with the primary goals of understanding customer spending behaviors, strengthening fraud detection measures, and support regulatory compliance. By examining various aspects of transaction activity, this analysis aims to uncover patterns and trends that can inform business strategies for both risk mitigation and customer engagement. The resulting insights are intended to provide a solid foundation for more informed decision-making concerning fraud prevention, operational efficiency, and customer relationship management.
 
 ## Objective:
-The primary objective of this report is to analyze transaction data to identify key patterns and anomalies related to customer spending, geographical trends, transaction errors, high-value transactions, credit risk indicators, and debt levels. This analysis will provide a comprehensive overview of potential risks and opportunities within our transaction ecosystem.
+The primary objective of this project is to analyze transaction data to identify key patterns and anomalies related to customer spending, geographical trends, transaction errors, high-value transactions, credit risk indicators, and debt levels. This analysis will provide a comprehensive overview of potential risks and opportunities within our transaction ecosystem.
 
 ## Focus Areas:
 This report will focus on the following key areas of transaction and risk analysis:
